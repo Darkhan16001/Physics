@@ -18,35 +18,33 @@ button{
 }
 button:hover:not(:disabled){background:#d5eaff}
 button:disabled{opacity:.6;cursor:default}
-.primary{background:#087dcc;color:white;border-color:#087dcc}
+.primary{background:var(--blue);color:white;border-color:var(--blue)}
 .primary:hover:not(:disabled){background:#066cb3}
 .hidden{display:none!important}
+.full{width:100%;margin:4px 0}
 .blue{color:var(--blue)}
 .green{color:var(--green)}
 .red{color:var(--red)}
 .row{display:flex;align-items:center;gap:6px}
 .row button{flex:1}
-#app{
-  display:grid;grid-template-columns:230px minmax(0,1fr);
-  height:100dvh;
-}
-aside{
+#app{display:grid;grid-template-columns:230px minmax(0,1fr);height:100dvh}
+#sidebar{
   min-height:0;overflow:auto;padding:11px;
   background:linear-gradient(160deg,#fff,#eaf6ff,#e7f8ef);
   border-right:1px solid var(--line);
 }
-aside header{text-align:center;padding:10px 0}
+.brand{text-align:center;padding:10px 0}
 .logo{font-size:46px;color:var(--blue)}
-header h2{font-size:21px;margin:6px;color:var(--blue)}
-header small{display:block;font-size:11px;margin:8px}
+.brand h2{font-size:23px;margin:6px;color:var(--blue)}
+.brand b{color:var(--green);letter-spacing:5px}
+.brand small{display:block;font-size:11px;margin:8px}
 .panel{
   display:flex;flex-direction:column;gap:6px;
   padding:9px;margin:9px 0;border-radius:12px;
   background:#ffffffec;border:1px solid var(--line);
 }
 .panel label,.boardTools label{
-  font-size:11px;font-weight:900;color:#6b899c;
-  letter-spacing:.7px;
+  font-size:11px;font-weight:900;color:#607e92;letter-spacing:.7px;
 }
 .panel button{font-size:12px;text-align:left;padding:8px}
 .panel .row button{text-align:center}
@@ -54,7 +52,7 @@ header small{display:block;font-size:11px;margin:8px}
   text-align:center;font-size:23px;color:var(--blue);
 }
 #timer{font-size:30px;color:var(--green)}
-progress{width:100%;height:7px;accent-color:var(--blue)}
+progress{width:100%;height:8px;accent-color:var(--blue)}
 nav{display:grid;gap:5px}
 nav button.active{background:var(--blue);color:white}
 .clock{text-align:center;background:white;border-radius:12px;padding:12px}
@@ -64,7 +62,7 @@ footer{text-align:center;padding:15px;font-size:12px;font-weight:900}
 #menuToggle{display:none;position:fixed;top:8px;left:8px;z-index:80}
 body.menuHidden #menuToggle{display:block}
 #app.menuHidden{grid-template-columns:minmax(0,1fr)}
-#app.menuHidden aside{display:none}
+#app.menuHidden #sidebar{display:none}
 #app.menuHidden #screen{padding-top:55px}
 #screen{min-width:0;min-height:0;overflow:auto;padding:18px}
 #stage{margin:0 auto}
@@ -81,9 +79,7 @@ body.menuHidden #menuToggle{display:block}
   box-shadow:0 9px 28px #2c68941a;overflow-wrap:break-word;
 }
 .hero{background:linear-gradient(135deg,#fff,#e2f5ff,#ecfff3)}
-.definition,.example,.warning{
-  padding:12px 18px;margin:16px 0;border-radius:12px;
-}
+.definition,.example,.warning{padding:12px 18px;margin:16px 0;border-radius:12px}
 .definition{background:#e5f8ec;border-left:5px solid #28a76e}
 .example{background:#fff7de;border-left:5px solid #e6b63e}
 .warning{background:#ffe5eb;border-left:5px solid #d63a50}
@@ -92,18 +88,13 @@ body.menuHidden #menuToggle{display:block}
   font-family:"Cambria Math","Segoe UI",Arial,sans-serif;
   color:#0872bd;font-weight:700;text-align:center;
   line-height:1.65;background:#e6f4ff;
-  border:1px solid #b6d8ec;border-radius:14px;
-  overflow-wrap:anywhere;
+  border:1px solid #b6d8ec;border-radius:14px;overflow-wrap:anywhere;
 }
 .frac{
-  display:inline-flex;flex-direction:column;
-  vertical-align:middle;align-items:center;line-height:1.25;
-  margin:5px;font-size:.9em;
+  display:inline-flex;flex-direction:column;vertical-align:middle;
+  align-items:center;line-height:1.25;margin:5px;font-size:.9em;
 }
-.frac span:first-child{
-  border-bottom:2px solid currentColor;
-  width:100%;padding:0 9px 5px;
-}
+.frac span:first-child{border-bottom:2px solid currentColor;width:100%;padding:0 9px 5px}
 .frac span:last-child{padding-top:5px}
 .grid2,.grid3{display:grid;gap:16px;align-items:start}
 .grid2{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -116,8 +107,7 @@ body.menuHidden #menuToggle{display:block}
 .visual small{font-size:14px}
 .notebook{
   border-left:6px solid #d78c9b;
-  background:repeating-linear-gradient(
-    white 0,white 34px,#dcebf6 35px,white 36px);
+  background:repeating-linear-gradient(white 0,white 34px,#dcebf6 35px,white 36px);
 }
 .data{font-size:23px;background:#edf7ff;padding:15px;border-radius:10px;margin:10px 0}
 .level{display:inline-block;padding:7px 14px;border-radius:20px;font-size:16px;font-weight:900}
@@ -138,7 +128,7 @@ body.menuHidden #menuToggle{display:block}
 .choice:disabled{opacity:1}
 .teamTurn{display:flex;flex-wrap:wrap;gap:8px}
 .teamTurn span{background:white;border-radius:20px;padding:12px;font-weight:800}
-.teamTurn .active{background:#087dcc;color:white}
+.teamTurn .active{background:var(--blue);color:white}
 .floating{
   position:fixed;right:15px;top:80px;width:300px;
   max-width:calc(100vw - 8px);max-height:calc(100dvh - 8px);
@@ -157,7 +147,7 @@ body.menuHidden #menuToggle{display:block}
   display:grid;grid-template-columns:1fr 1fr;
   gap:6px;max-height:350px;overflow:auto;margin:10px 0;
 }
-#students label{padding:10px;background:#e9f7ee;border-radius:8px}
+.student{display:flex;align-items:center;gap:5px;background:#e9f7ee;padding:5px;border-radius:8px}
 #taskList button{text-align:left}
 #taskList small{display:block}
 #randomName{text-align:center;color:var(--blue);font-size:35px}
@@ -179,17 +169,13 @@ input[type=range]{accent-color:var(--blue)}
 #board{
   position:fixed;inset:0;z-index:100;
   display:grid;grid-template-columns:175px minmax(0,1fr);
-  grid-template-rows:52px minmax(0,1fr);
-  background:#dce9f2;
+  grid-template-rows:52px minmax(0,1fr);background:#dce9f2;
 }
 .boardHeader{
   grid-column:1/-1;display:flex;align-items:center;
   justify-content:space-between;background:white;padding:10px;
 }
-.boardTools{
-  padding:8px;overflow:auto;display:flex;flex-direction:column;
-  gap:5px;background:#f6fbff;
-}
+.boardTools{padding:8px;overflow:auto;display:flex;flex-direction:column;gap:5px;background:#f6fbff}
 .boardTools button{font-size:12px;padding:7px}
 #boardViewport{overflow:auto;padding:12px;min-width:0;min-height:0}
 #paper{background:white;position:relative;box-shadow:0 6px 22px #19364f25}
@@ -203,7 +189,7 @@ canvas{display:block;width:100%;height:auto;touch-action:none;cursor:crosshair}
 }
 @media(max-width:650px){
   #app{grid-template-columns:135px minmax(0,1fr)}
-  aside,.panel,#screen{padding:5px}
+  #sidebar,.panel,#screen{padding:5px}
   .card{padding:14px}
   .slide h1{font-size:27px}
   .slide h2{font-size:24px}
