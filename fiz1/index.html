@@ -1,0 +1,307 @@
+
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PHYSICS LAB PRO — 3.2.2</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<button id="menuToggle" onclick="toggleMenu()" title="Мәзір">☰</button>
+
+<div id="app" class="app">
+
+  <aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+      <div class="logo">⚛</div>
+      <h2>PHYSICS LAB</h2>
+      <strong>PRO</strong>
+      <small>1-КУРС · 80 МИНУТ</small>
+    </div>
+
+    <div class="panel">
+      <div id="pageCount" class="counter">1 / 58</div>
+
+      <div class="row">
+        <button id="prev" onclick="go(-1)">← Артқа</button>
+        <button id="next" class="primary" onclick="go(1)">Келесі →</button>
+      </div>
+
+      <div class="progress">
+        <div id="progressFill"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="label">ЭКРАН МАСШТАБЫ</div>
+
+      <div class="row">
+        <button onclick="changeScale(-25)">−</button>
+        <strong id="scaleLabel" class="scale-label">100%</strong>
+        <button onclick="changeScale(25)">+</button>
+      </div>
+
+      <button onclick="resetScale()">100% — Қалпына келтіру</button>
+      <button onclick="fullscreen()">⛶ Толық экран</button>
+      <button onclick="toggleMenu()">◀ Мәзірді жасыру</button>
+    </div>
+
+    <div class="panel">
+      <div class="label">САБАҚ ТАЙМЕРІ</div>
+      <strong class="timer" id="timer">80:00</strong>
+
+      <div class="row">
+        <button id="timerButton" onclick="toggleTimer()">Бастау</button>
+        <button onclick="resetTimer()">Қайтару</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="label">ҚАТЫСЫП ОТЫРҒАНДАР</div>
+      <strong class="counter" id="attendanceCount">24 / 24</strong>
+
+      <button onclick="openPanel('attendancePanel')">👥 Оқушылар</button>
+      <button onclick="openPanel('teamsPanel')">🏆 Командалар</button>
+    </div>
+
+    <div class="panel">
+      <div class="label">САБАҚ БӨЛІМДЕРІ</div>
+      <nav id="lessonMenu"></nav>
+    </div>
+
+    <div class="panel">
+      <div class="label">ҚҰРАЛДАР</div>
+
+      <button class="green-button" onclick="openBoard()">
+        ✎ Интерактивті тақта
+      </button>
+
+      <button onclick="openPanel('mathPanel')">
+        🧮 Математика
+      </button>
+
+      <button onclick="openPanel('physicsPanel')">
+        ⚙ Физика
+      </button>
+
+      <button onclick="readPage()">🔊 Мәтінді оқу</button>
+      <button onclick="stopReading()">■ Тоқтату</button>
+    </div>
+
+    <div class="clock">
+      <small>АЛМАТЫ · UTC+5</small>
+      <strong id="clock">00:00:00</strong>
+      <small id="date"></small>
+    </div>
+
+    <div class="author">BY DARKHAN</div>
+
+  </aside>
+
+  <main id="screen" class="screen">
+    <div id="stage"></div>
+  </main>
+
+</div>
+
+<!-- ОҚУШЫЛАР -->
+
+<section id="attendancePanel" class="floating wide hidden">
+
+  <div class="window-title">
+    <strong>👥 Оқушылар</strong>
+    <button onclick="closePanel('attendancePanel')">✕</button>
+  </div>
+
+  <p>Сабаққа келген оқушыларды белгілеңіз.</p>
+
+  <div class="row">
+    <button onclick="markAll(true)">Барлығы бар</button>
+    <button onclick="markAll(false)">Барлығы жоқ</button>
+  </div>
+
+  <div id="students"></div>
+
+  <div class="row">
+    <input id="studentName" placeholder="Оқушының аты">
+    <button onclick="addStudent()">Қосу</button>
+  </div>
+
+  <button class="primary full" onclick="shuffleTeams(true)">
+    🎲 Автоматты 3 топқа бөлу
+  </button>
+
+</section>
+
+<!-- КОМАНДАЛАР -->
+
+<section id="teamsPanel" class="floating wide hidden">
+
+  <div class="window-title">
+    <strong>🏆 Командалар</strong>
+    <button onclick="closePanel('teamsPanel')">✕</button>
+  </div>
+
+  <div id="teams"></div>
+
+  <button class="primary full" onclick="shuffleTeams(true)">
+    Қайта бөлу
+  </button>
+
+</section>
+
+<!-- МИНИ МАТЕМАТИКАЛЫҚ КАЛЬКУЛЯТОР -->
+
+<section id="mathPanel" class="floating mini hidden">
+
+  <div class="window-title">
+    <strong>🧮 Математика</strong>
+    <button onclick="closePanel('mathPanel')">✕</button>
+  </div>
+
+  <input id="mathDisplay" readonly placeholder="0">
+
+  <div id="mathKeys" class="math-keys"></div>
+
+  <div id="mathResult" class="result">0</div>
+
+</section>
+
+<!-- МИНИ ФИЗИКАЛЫҚ КАЛЬКУЛЯТОР -->
+
+<section id="physicsPanel" class="floating mini hidden">
+
+  <div class="window-title">
+    <strong>⚙ Физика</strong>
+    <button onclick="closePanel('physicsPanel')">✕</button>
+  </div>
+
+  <label>Формула</label>
+  <select id="physicsFormula" onchange="selectFormula()"></select>
+
+  <label>Табу керек</label>
+  <select id="physicsUnknown" onchange="physicsInputs()"></select>
+
+  <div id="physicsInputs"></div>
+
+  <button class="primary full" onclick="calculatePhysics()">
+    Есептеу
+  </button>
+
+  <div id="physicsResult" class="result">Нәтиже</div>
+
+</section>
+
+<!-- ИНТЕРАКТИВТІ ТАҚТА -->
+
+<section id="board" class="board hidden">
+
+  <header class="board-header">
+    <strong>✎ PHYSICS WHITEBOARD</strong>
+
+    <button onclick="closeBoard()">
+      ✕ Сабаққа қайту
+    </button>
+  </header>
+
+  <aside class="board-tools">
+
+    <div class="label">ТҮСТЕР</div>
+
+    <div class="colors">
+      <button style="--c:#172b42" onclick="setColor('#172b42')"></button>
+      <button style="--c:#087dcc" onclick="setColor('#087dcc')"></button>
+      <button style="--c:#e53945" onclick="setColor('#e53945')"></button>
+      <button style="--c:#16a05c" onclick="setColor('#16a05c')"></button>
+      <button style="--c:#edb527" onclick="setColor('#edb527')"></button>
+      <button style="--c:#8b45db" onclick="setColor('#8b45db')"></button>
+    </div>
+
+    <input type="color" id="inkColor" value="#172b42"
+      oninput="setColor(this.value)">
+
+    <label>
+      Қалыңдығы: <b id="penValue">5</b>
+    </label>
+
+    <input type="range" min="1" max="50" value="5"
+      oninput="setSize(this.value)">
+
+    <div class="label">ҚҰРАЛДАР</div>
+
+    <button data-tool="hand" onclick="setTool('hand')">✋ Жылжыту</button>
+    <button data-tool="pen" onclick="setTool('pen')">✎ Қалам</button>
+    <button data-tool="marker" onclick="setTool('marker')">🖍 Маркер</button>
+    <button data-tool="eraser" onclick="setTool('eraser')">◯ Өшіргіш</button>
+    <button data-tool="text" onclick="setTool('text')">T Мәтін</button>
+
+    <div class="label">ФИГУРАЛАР</div>
+
+    <div class="shape-grid">
+      <button data-tool="line" onclick="setTool('line')">╱</button>
+      <button data-tool="arrow" onclick="setTool('arrow')">➜</button>
+      <button data-tool="rect" onclick="setTool('rect')">▭</button>
+      <button data-tool="circle" onclick="setTool('circle')">◯</button>
+      <button data-tool="triangle" onclick="setTool('triangle')">△</button>
+      <button onclick="toggleGrid()">▦</button>
+    </div>
+
+    <div class="label">БЕТТЕР</div>
+
+    <div class="row">
+      <button onclick="boardPage(-1)">◀</button>
+      <b id="boardCount">1 / 1</b>
+      <button onclick="boardPage(1)">▶</button>
+    </div>
+
+    <button onclick="newBoardPage()">+ Жаңа бет</button>
+    <button onclick="deleteBoardPage()">Бетті өшіру</button>
+
+    <div class="label">ТАҚТА МАСШТАБЫ</div>
+
+    <div class="row">
+      <button onclick="boardScale(-25)">−</button>
+      <strong id="boardZoom">100%</strong>
+      <button onclick="boardScale(25)">+</button>
+    </div>
+
+    <button onclick="resetBoardScale()">100% — Қайтару</button>
+
+    <div class="row">
+      <button onclick="undoBoard()">↶</button>
+      <button onclick="redoBoard()">↷</button>
+    </div>
+
+    <button onclick="clearBoard()">Тазалау</button>
+
+    <button onclick="document.getElementById('imageInput').click()">
+      + Сурет қосу
+    </button>
+
+    <input type="file" id="imageInput" accept="image/*"
+      class="hidden" onchange="importImage(event)">
+
+    <button class="primary" onclick="saveBoard()">↓ PNG сақтау</button>
+
+    <button onclick="openPanel('mathPanel')">🧮 Математика</button>
+    <button onclick="openPanel('physicsPanel')">⚙ Физика</button>
+
+  </aside>
+
+  <div id="boardViewport" class="board-viewport">
+
+    <div id="paper" class="paper">
+      <canvas id="canvas" width="1600" height="900"></canvas>
+      <div id="eraserCursor" class="eraser-cursor hidden"></div>
+    </div>
+
+  </div>
+
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
